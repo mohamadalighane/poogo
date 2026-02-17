@@ -1,0 +1,46 @@
+<div class="prompt-card" data-prompt-id="{{ prompt.id }}">
+    <div class="prompt-card-header">
+        {% if prompt.category %}
+        <span class="prompt-category" style="background-color: {{ prompt.category.color }}20; color: {{ prompt.category.color }}">
+            {{ prompt.category.name }}
+        </span>
+        {% endif %}
+        {% if prompt.is_featured %}
+        <span class="prompt-featured">⭐</span>
+        {% endif %}
+    </div>
+    
+    <div class="prompt-card-body">
+        <h3 class="prompt-title">
+            <a href="{% url 'prompt_detail' prompt.slug %}">{{ prompt.title }}</a>
+        </h3>
+        <p class="prompt-description">{{ prompt.description|truncatewords:20 }}</p>
+        
+        {% if prompt.tags.all %}
+        <div class="prompt-tags">
+            {% for tag in prompt.tags.all|slice:":3" %}
+            <span class="tag">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="prompt-card-footer">
+        <div class="prompt-stats">
+            <span class="stat-item">👁 {{ prompt.views_count }}</span>
+            <span class="stat-item">❤️ {{ prompt.likes_count }}</span>
+            <span class="stat-item">📋 {{ prompt.copies_count }}</span>
+        </div>
+        <div class="prompt-actions">
+            <a href="{% url 'prompt_detail' prompt.slug %}" class="btn btn-sm btn-primary">مشاهده</a>
+        </div>
+    </div>
+    
+    {% if prompt.difficulty %}
+    <div class="prompt-difficulty difficulty-{{ prompt.difficulty }}">
+        {% if prompt.difficulty == 'beginner' %}مبتدی
+        {% elif prompt.difficulty == 'intermediate' %}متوسط
+        {% else %}پیشرفته{% endif %}
+    </div>
+    {% endif %}
+</div>

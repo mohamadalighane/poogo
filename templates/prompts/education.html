@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}آموزش برنامه‌نویسی - Poogo{% endblock %}
+
+{% block content %}
+<div class="education-page">
+    <div class="container">
+        <div class="education-hero">
+            <h1 class="page-title">آموزش برنامه‌نویسی با پرامت‌ها</h1>
+            <p class="page-subtitle">یادگیری ساده و گام‌به‌گام برنامه‌نویسی با پرامت‌های آماده</p>
+        </div>
+        
+        <!-- Beginner Section -->
+        <section class="education-level-section">
+            <div class="level-header">
+                <h2 class="level-title">🌱 سطح مبتدی</h2>
+                <p class="level-description">شروع یادگیری برنامه‌نویسی</p>
+            </div>
+            <div class="prompts-grid">
+                {% for prompt in beginner_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% empty %}
+                <p class="empty-message">پرامتی در این سطح وجود ندارد.</p>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <!-- Intermediate Section -->
+        <section class="education-level-section">
+            <div class="level-header">
+                <h2 class="level-title">🚀 سطح متوسط</h2>
+                <p class="level-description">تقویت مهارت‌های برنامه‌نویسی</p>
+            </div>
+            <div class="prompts-grid">
+                {% for prompt in intermediate_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% empty %}
+                <p class="empty-message">پرامتی در این سطح وجود ندارد.</p>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <!-- Advanced Section -->
+        <section class="education-level-section">
+            <div class="level-header">
+                <h2 class="level-title">⚡ سطح پیشرفته</h2>
+                <p class="level-description">تسلط بر مفاهیم پیشرفته</p>
+            </div>
+            <div class="prompts-grid">
+                {% for prompt in advanced_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% empty %}
+                <p class="empty-message">پرامتی در این سطح وجود ندارد.</p>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <!-- Collections -->
+        {% if education_collections %}
+        <section class="collections-section">
+            <h2 class="section-title">مجموعه‌های آموزشی</h2>
+            <div class="collections-grid">
+                {% for collection in education_collections %}
+                <a href="{% url 'collection_detail' collection.slug %}" class="collection-card">
+                    <h3>{{ collection.name }}</h3>
+                    <p>{{ collection.description|truncatewords:15 }}</p>
+                    <span class="collection-count">{{ collection.prompts.count }} پرامت</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

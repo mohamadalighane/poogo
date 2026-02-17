@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ prompt.title }} - Poogo{% endblock %}
+
+{% block content %}
+<div class="prompt-detail-page">
+    <div class="container">
+        <div class="prompt-detail-header">
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">خانه</a> / 
+                {% if prompt.category %}
+                <a href="{% url 'category_detail' prompt.category.slug %}">{{ prompt.category.name }}</a> /
+                {% endif %}
+                <span>{{ prompt.title }}</span>
+            </div>
+            
+            <div class="prompt-meta">
+                {% if prompt.category %}
+                <span class="meta-badge" style="background-color: {{ prompt.category.color }}20; color: {{ prompt.category.color }}">
+                    {{ prompt.category.name }}
+                </span>
+                {% endif %}
+                {% if prompt.difficulty %}
+                <span class="meta-badge difficulty-{{ prompt.difficulty }}">
+                    {% if prompt.difficulty == 'beginner' %}مبتدی
+                    {% elif prompt.difficulty == 'intermediate' %}متوسط
+                    {% else %}پیشرفته{% endif %}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <article class="prompt-detail-content">
+            <h1 class="prompt-detail-title">{{ prompt.title }}</h1>
+            
+            {% if prompt.description %}
+            <p class="prompt-description-full">{{ prompt.description }}</p>
+            {% endif %}
+            
+            <div class="prompt-content-box">
+                <div class="prompt-content-header">
+                    <span>متن پرامت</span>
+                    <button class="copy-btn" onclick="copyPrompt()" data-prompt-id="{{ prompt.id }}">
+                        📋 کپی
+                    </button>
+                </div>
+                <pre class="prompt-content" id="prompt-text">{{ prompt.content }}</pre>
+            </div>
+            
+            {% if prompt.examples.all %}
+            <div class="prompt-examples">
+                <h3>مثال‌های استفاده</h3>
+                {% for example in prompt.examples.all %}
+                <div class="example-item">
+                    <div class="example-input">
+                        <strong>ورودی:</strong>
+                        <pre>{{ example.input_text }}</pre>
+                    </div>
+                    <div class="example-output">
+                        <strong>خروجی:</strong>
+                        <pre>{{ example.output_text }}</pre>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="prompt-stats-full">
+                <div class="stat-box">
+                    <span class="stat-icon">👁</span>
+                    <span class="stat-value">{{ prompt.views_count }}</span>
+                    <span class="stat-label">بازدید</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-icon">❤️</span>
+                    <span class="stat-value">{{ prompt.likes_count }}</span>
+                    <span class="stat-label">لایک</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-icon">📋</span>
+                    <span class="stat-value">{{ prompt.copies_count }}</span>
+                    <span class="stat-label">کپی</span>
+                </div>
+            </div>
+        </article>
+        
+        {% if related_prompts %}
+        <section class="related-prompts">
+            <h2 class="section-title">پرامت‌های مرتبط</h2>
+            <div class="prompts-grid">
+                {% for prompt in related_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function copyPrompt() {
+    const text = document.getElementById('prompt-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('پرامت کپی شد!');
+        // ثبت کپی در سرور
+        fetch('{% url "copy_prompt" prompt.slug %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        });
+    });
+}
+</script>
+{% endblock %}

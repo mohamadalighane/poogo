@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}همه پرامت‌ها - Poogo{% endblock %}
+
+{% block content %}
+<div class="prompts-page">
+    <div class="container">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+            <div class="filter-section">
+                <h3 class="filter-title">دسته‌بندی</h3>
+                <div class="filter-list">
+                    <a href="{% url 'prompt_list' %}" class="filter-item {% if not current_category %}active{% endif %}">
+                        همه
+                    </a>
+                    {% for cat in categories %}
+                    <a href="?category={{ cat.slug }}" class="filter-item {% if current_category == cat.slug %}active{% endif %}">
+                        {{ cat.name }} ({{ cat.prompt_count }})
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h3 class="filter-title">سطح دشواری</h3>
+                <div class="filter-list">
+                    <a href="?{% if current_category %}category={{ current_category }}&{% endif %}" class="filter-item {% if not current_difficulty %}active{% endif %}">همه</a>
+                    <a href="?{% if current_category %}category={{ current_category }}&{% endif %}difficulty=beginner" class="filter-item {% if current_difficulty == 'beginner' %}active{% endif %}">مبتدی</a>
+                    <a href="?{% if current_category %}category={{ current_category }}&{% endif %}difficulty=intermediate" class="filter-item {% if current_difficulty == 'intermediate' %}active{% endif %}">متوسط</a>
+                    <a href="?{% if current_category %}category={{ current_category }}&{% endif %}difficulty=advanced" class="filter-item {% if current_difficulty == 'advanced' %}active{% endif %}">پیشرفته</a>
+                </div>
+            </div>
+            
+            {% if tags %}
+            <div class="filter-section">
+                <h3 class="filter-title">تگ‌های محبوب</h3>
+                <div class="tags-cloud">
+                    {% for tag in tags %}
+                    <a href="?tag={{ tag.slug }}" class="tag-link {% if current_tag == tag.slug %}active{% endif %}">
+                        {{ tag.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="prompts-main">
+            <div class="prompts-header">
+                <h1 class="page-title">همه پرامت‌ها</h1>
+                <div class="sort-options">
+                    <span>مرتب‌سازی:</span>
+                    <select class="sort-select" onchange="window.location.href=this.value">
+                        <option value="?sort=newest{% if current_category %}&category={{ current_category }}{% endif %}" {% if sort_by == 'newest' %}selected{% endif %}>جدیدترین</option>
+                        <option value="?sort=popular{% if current_category %}&category={{ current_category }}{% endif %}" {% if sort_by == 'popular' %}selected{% endif %}>محبوب‌ترین</option>
+                        <option value="?sort=liked{% if current_category %}&category={{ current_category }}{% endif %}" {% if sort_by == 'liked' %}selected{% endif %}>بیشترین لایک</option>
+                        <option value="?sort=copied{% if current_category %}&category={{ current_category }}{% endif %}" {% if sort_by == 'copied' %}selected{% endif %}>بیشترین کپی</option>
+                    </select>
+                </div>
+            </div>
+            
+            {% if page_obj %}
+            <div class="prompts-grid">
+                {% for prompt in page_obj %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}" class="pagination-btn">قبلی</a>
+                {% endif %}
+                
+                <span class="pagination-info">
+                    صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}" class="pagination-btn">بعدی</a>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="empty-state">
+                <p>پرامتی یافت نشد.</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</div>
+{% endblock %}

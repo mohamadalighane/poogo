@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ collection.name }} - Poogo{% endblock %}
+
+{% block content %}
+<div class="collection-detail-page">
+    <div class="container">
+        <div class="collection-header">
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">خانه</a> / 
+                <span>{{ collection.name }}</span>
+            </div>
+            <h1 class="collection-title">{{ collection.name }}</h1>
+            {% if collection.description %}
+            <p class="collection-description">{{ collection.description }}</p>
+            {% endif %}
+        </div>
+        
+        {% if prompts %}
+        <div class="prompts-grid">
+            {% for prompt in prompts %}
+            {% include 'prompts/prompt_card.html' with prompt=prompt %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>این مجموعه خالی است.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

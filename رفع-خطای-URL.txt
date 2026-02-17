@@ -1,0 +1,58 @@
+═══════════════════════════════════════════════════════════
+  ✅ خطای NoReverseMatch برطرف شد
+═══════════════════════════════════════════════════════════
+
+■ مشکل:
+───────────────────────────────────────
+خطای "Reverse for 'category_detail' with arguments '('تصویر',)' not found"
+به دلیل اینکه URL pattern فقط کاراکترهای ASCII را می‌پذیرفت.
+
+
+■ راه حل:
+───────────────────────────────────────
+✅ تغییر URL patterns از path() به re_path() با regex pattern
+✅ اضافه شدن پشتیبانی از کاراکترهای فارسی/عربی (\u0600-\u06FF)
+✅ اضافه شدن save() method به مدل‌های Tag, SubCategory, PromptCollection
+   برای ساخت خودکار slug
+
+
+■ تغییرات انجام شده:
+───────────────────────────────────────
+1. prompts/urls.py
+   - تغییر از <slug:slug> به regex pattern
+   - Pattern: [-\w\u0600-\u06FF]+
+   - پشتیبانی از خط تیره، underscore، اعداد، حروف انگلیسی و فارسی
+
+2. prompts/models.py
+   - اضافه شدن save() method به Tag
+   - اضافه شدن save() method به SubCategory  
+   - اضافه شدن save() method به PromptCollection
+
+
+■ مراحل بعدی:
+───────────────────────────────────────
+1. اگر slug های موجود در دیتابیس مشکل دارند:
+   - از پنل ادمین slug ها را ویرایش کنید
+   - یا از shell Django استفاده کنید:
+     python manage.py shell
+     >>> from prompts.models import Category
+     >>> for cat in Category.objects.all():
+     ...     cat.save()  # این slug را دوباره می‌سازد
+
+2. سرور را restart کنید:
+   - Ctrl+C برای متوقف کردن
+   - python manage.py runserver برای اجرای مجدد
+
+3. اگر هنوز مشکل دارید:
+   - مطمئن شوید که migration ها اجرا شده‌اند
+   - بررسی کنید که slug ها در دیتابیس درست ذخیره شده‌اند
+
+
+■ تست:
+───────────────────────────────────────
+بعد از restart سرور، این URL ها باید کار کنند:
+- /category/تصویر/
+- /category/نویسندگی/
+- /prompt/عنوان-پرامت-فارسی/
+
+═══════════════════════════════════════════════════════════

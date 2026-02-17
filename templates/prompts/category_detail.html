@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - Poogo{% endblock %}
+
+{% block content %}
+<div class="category-detail-page">
+    <div class="container">
+        <div class="category-header">
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">خانه</a> / 
+                <span>{{ category.name }}</span>
+            </div>
+            <div class="category-info">
+                <div class="category-icon-large" style="color: {{ category.color }}">{{ category.icon|default:"📁" }}</div>
+                <div>
+                    <h1 class="category-title">{{ category.name }}</h1>
+                    {% if category.description %}
+                    <p class="category-description">{{ category.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        {% if subcategories %}
+        <section class="subcategories-section">
+            <h2 class="section-title">زیردسته‌ها</h2>
+            <div class="subcategories-grid">
+                {% for subcat in subcategories %}
+                <a href="?subcategory={{ subcat.slug }}" class="subcategory-card">
+                    <h3>{{ subcat.name }}</h3>
+                    <span>{{ subcat.prompts.count }} پرامت</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+        
+        <section class="category-prompts">
+            <div class="section-header">
+                <h2 class="section-title">پرامت‌های این دسته</h2>
+            </div>
+            
+            {% if page_obj %}
+            <div class="prompts-grid">
+                {% for prompt in page_obj %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-btn">قبلی</a>
+                {% endif %}
+                
+                <span class="pagination-info">
+                    صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="pagination-btn">بعدی</a>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="empty-state">
+                <p>هیچ پرامتی در این دسته وجود ندارد.</p>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

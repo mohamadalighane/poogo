@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f14">
+    <meta name="description" content="Poogo - بزرگترین مجموعه پرامت‌های آماده برای AI، برنامه‌نویسی، نویسندگی و ساخت عکس">
+    <title>{% block title %}Poogo - پرامت‌های پیشرفته{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">Poogo</span>
+            </a>
+            
+            <div class="nav-search">
+                <form method="get" action="{% url 'prompt_list' %}" class="search-form">
+                    <input type="search" name="q" placeholder="جستجوی پرامت..." value="{{ request.GET.q }}" class="search-input">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
+            </div>
+            
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link">خانه</a>
+                <a href="{% url 'prompt_list' %}" class="nav-link">همه پرامت‌ها</a>
+                <a href="{% url 'education' %}" class="nav-link">آموزش</a>
+                <a href="/admin/" class="nav-link admin-link">پنل مدیریت</a>
+            </div>
+            
+            <button class="nav-toggle" aria-label="منو">☰</button>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Poogo</h4>
+                <p>بزرگترین مجموعه پرامت‌های آماده برای AI</p>
+            </div>
+            <div class="footer-section">
+                <h4>دسترسی سریع</h4>
+                <a href="{% url 'prompt_list' %}">همه پرامت‌ها</a>
+                <a href="{% url 'education' %}">آموزش برنامه‌نویسی</a>
+                <a href="/admin/">پنل مدیریت</a>
+            </div>
+            <div class="footer-section">
+                <h4>دسته‌بندی‌ها</h4>
+                {% if categories %}
+                    {% for category in categories|slice:":5" %}
+                    <a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">هیچ دسته‌بندی وجود ندارد</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Poogo. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

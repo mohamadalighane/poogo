@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}خانه - Poogo{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            بزرگترین مجموعه <span class="gradient-text">پرامت‌های آماده</span>
+        </h1>
+        <p class="hero-subtitle">
+            برای AI، برنامه‌نویسی، نویسندگی و ساخت عکس
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'prompt_list' %}" class="btn btn-primary btn-large">مشاهده همه</a>
+            <a href="{% url 'education' %}" class="btn btn-outline btn-large">بخش آموزش</a>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Grid -->
+<section class="categories-section">
+    <div class="container">
+        <h2 class="section-title">دسته‌بندی‌ها</h2>
+        <div class="categories-grid">
+            {% if categories %}
+                {% for category in categories %}
+                <a href="{% url 'category_detail' category.slug %}" class="category-card" style="--category-color: {{ category.color }}">
+                    <div class="category-icon">{{ category.icon|default:"📁" }}</div>
+                    <h3 class="category-name">{{ category.name }}</h3>
+                    <p class="category-count">{{ category.prompts.count }} پرامت</p>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>هیچ دسته‌بندی وجود ندارد. لطفاً از پنل ادمین دسته‌بندی اضافه کنید.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Prompts -->
+{% if featured_prompts %}
+<section class="featured-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">پرامت‌های ویژه ⭐</h2>
+            <a href="{% url 'prompt_list' %}?sort=popular" class="section-link">مشاهده همه</a>
+        </div>
+        <div class="prompts-grid">
+            {% if featured_prompts %}
+                {% for prompt in featured_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>هیچ پرامت ویژه‌ای وجود ندارد.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Prompts -->
+<section class="recent-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">جدیدترین پرامت‌ها</h2>
+            <a href="{% url 'prompt_list' %}" class="section-link">مشاهده همه</a>
+        </div>
+        <div class="prompts-grid">
+            {% if recent_prompts %}
+                {% for prompt in recent_prompts %}
+                {% include 'prompts/prompt_card.html' with prompt=prompt %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>هیچ پرامتی وجود ندارد. لطفاً از پنل ادمین پرامت اضافه کنید.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

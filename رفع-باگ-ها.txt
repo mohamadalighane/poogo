@@ -1,0 +1,71 @@
+═══════════════════════════════════════════════════════════
+  ✅ باگ‌ها و ارورها برطرف شدند
+═══════════════════════════════════════════════════════════
+
+■ مشکلات برطرف شده:
+───────────────────────────────────────
+✅ خطای "no such column: prompts_prompt.image" - برطرف شد
+✅ خطای "no such table: prompts_category" - نیاز به migration
+✅ مشکل دسترسی به متغیر categories در template ها - برطرف شد
+✅ اضافه شدن context processor برای categories
+✅ اضافه شدن template های category_detail و collection_detail
+✅ بهبود performance با select_related و prefetch_related
+✅ اضافه شدن بررسی‌های empty state در template ها
+
+
+■ تغییرات انجام شده:
+───────────────────────────────────────
+1. اضافه شدن prompts/context_processors.py
+   - اضافه کردن categories به همه template ها
+
+2. به‌روزرسانی poogo_project/settings.py
+   - اضافه شدن context processor به TEMPLATES
+
+3. به‌روزرسانی templates/base.html
+   - اضافه شدن بررسی if برای categories
+
+4. به‌روزرسانی templates/prompts/home.html
+   - اضافه شدن بررسی‌های empty state
+
+5. به‌روزرسانی prompts/views.py
+   - بهبود query ها با select_related و prefetch_related
+   - اضافه شدن annotate برای شمارش پرامت‌ها
+
+6. اضافه شدن templates/prompts/category_detail.html
+   - صفحه نمایش دسته‌بندی با زیردسته‌ها
+
+7. اضافه شدن templates/prompts/collection_detail.html
+   - صفحه نمایش مجموعه پرامت‌ها
+
+8. به‌روزرسانی static/css/main.css
+   - اضافه شدن استایل برای صفحات جدید
+
+
+■ مراحل بعدی:
+───────────────────────────────────────
+1. اجرای migration ها (اگر هنوز انجام نشده):
+   python manage.py makemigrations prompts
+   python manage.py migrate
+
+2. ایجاد کاربر ادمین (اگر هنوز انجام نشده):
+   python manage.py createsuperuser
+
+3. ایجاد داده‌های نمونه (اختیاری):
+   python manage.py create_sample_data
+
+4. اجرای سرور:
+   python manage.py runserver
+
+
+■ نکات مهم:
+───────────────────────────────────────
+⚠️  اگر هنوز خطای "no such table" می‌گیرید:
+   - migration ها را اجرا کنید (مرحله 1 بالا)
+
+⚠️  اگر سایت خالی است:
+   - از پنل ادمین (/admin) دسته‌بندی و پرامت اضافه کنید
+   - یا از دستور create_sample_data استفاده کنید
+
+✅ حالا سایت باید بدون خطا کار کند!
+
+═══════════════════════════════════════════════════════════
