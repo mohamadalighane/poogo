@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0f14">
+  <meta name="description" content="Poogo — پرامت‌های آماده، پیامرسانی پیشرفته، زبان Grafjy برای ساخت ربات، ویرایشگر عکس و آموزش برنامه‌نویسی. همه در یک پلتفرم.">
+  <meta name="keywords" content="Poogo, پرامت, Grafjy, ربات پیامرسان, ویرایش عکس, آموزش برنامه نویسی, زبان برنامه نویسی">
+  <meta name="author" content="Poogo">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Poogo - پلتفرم همه‌کاره">
+  <meta property="og:description" content="پرامت، پیامرسانی، ربات‌سازی با Grafjy، ویرایش عکس و یادگیری برنامه‌نویسی — همه در یک جا">
+  <meta property="og:locale" content="fa_IR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Poogo - پلتفرم همه‌کاره">
+  <title>Poogo - پلتفرم همه‌کاره</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- نوار ناوبری -->
+  <nav class="main-nav">
+    <a href="#" class="logo">Poogo</a>
+    <button class="nav-toggle" aria-label="منو">☰</button>
+    <ul class="nav-links">
+      <li><a href="#prompts">پرامت‌ها</a></li>
+      <li><a href="#messaging">پیامرسانی</a></li>
+      <li><a href="#grafjy">Grafjy</a></li>
+      <li><a href="#image-editor">ویرایشگر عکس</a></li>
+      <li><a href="#learn-grafjy">آموزش Grafjy</a></li>
+      <li><a href="#languages">راهنمای زبان‌ها</a></li>
+    </ul>
+  </nav>
+
+  <!-- هیرو -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>به <span class="brand">Poogo</span> خوش آمدید</h1>
+      <p>پرامت، پیامرسانی، ربات‌سازی با Grafjy، ویرایش عکس و یادگیری برنامه‌نویسی — همه در یک جا</p>
+      <div class="hero-actions">
+        <a href="#prompts" class="btn btn-primary">شروع کنید</a>
+        <a href="#learn-grafjy" class="btn btn-outline">یاد بگیرید</a>
+      </div>
+    </div>
+    <div class="hero-visual"></div>
+  </header>
+
+  <main>
+    <!-- بخش پرامت‌های آماده -->
+    <section id="prompts" class="section">
+      <h2 class="section-title">پرامت‌های آماده</h2>
+      <p class="section-desc">دسته‌بندی شده برای هر نیازی</p>
+      <div class="prompt-categories">
+        <button class="cat-btn active" data-cat="all">همه</button>
+        <button class="cat-btn" data-cat="writing">نویسندگی</button>
+        <button class="cat-btn" data-cat="code">برنامه‌نویسی</button>
+        <button class="cat-btn" data-cat="creative">خلاقانه</button>
+        <button class="cat-btn" data-cat="business">کسب‌وکار</button>
+        <button class="cat-btn" data-cat="education">آموزش</button>
+        <button class="cat-btn" data-cat="translate">ترجمه</button>
+      </div>
+      <div class="prompts-grid" id="promptsGrid"></div>
+      <div class="prompt-modal" id="promptModal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h3 id="modalPromptTitle"></h3>
+          <pre id="modalPromptText"></pre>
+          <button class="btn btn-primary copy-prompt">کپی پرامت</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش پیامرسانی پیشرفته -->
+    <section id="messaging" class="section dark">
+      <h2 class="section-title">پیامرسانی پیشرفته</h2>
+      <p class="section-desc">ارسال و مدیریت پیام با قابلیت‌های حرفه‌ای</p>
+      <div class="messaging-app">
+        <aside class="chat-list">
+          <div class="chat-search">
+            <input type="search" placeholder="جستجوی مکالمه..." id="chatSearch">
+          </div>
+          <ul class="conversations" id="conversationsList"></ul>
+          <button class="btn btn-small new-chat">مکالمه جدید</button>
+        </aside>
+        <div class="chat-area">
+          <div class="chat-header">
+            <span id="currentChatName">یک مکالمه انتخاب کنید</span>
+            <div class="chat-actions">
+              <button class="icon-btn" title="قرار ملاقات">📅</button>
+              <button class="icon-btn" title="پیوست">📎</button>
+              <button class="icon-btn" title="واکنش سریع">⚡</button>
+            </div>
+          </div>
+          <div class="messages-container" id="messagesContainer">
+            <div class="empty-chat" id="emptyChat">
+              <p>برای شروع یک مکالمه را انتخاب کنید یا «مکالمه جدید» بزنید.</p>
+            </div>
+            <div class="messages" id="messages"></div>
+          </div>
+          <div class="compose">
+            <div class="compose-toolbar">
+              <button class="toolbar-btn" data-format="bold" title="پررنگ">B</button>
+              <button class="toolbar-btn" data-format="italic" title="ایتالیک">I</button>
+              <button class="toolbar-btn" data-format="code" title="کد">&#60;/&#62;</button>
+              <button class="toolbar-btn emoji-trigger" title="ایموجی">😀</button>
+              <input type="file" id="attachFile" hidden accept="image/*,.pdf">
+              <button class="toolbar-btn" id="attachBtn" title="پیوست">📎</button>
+            </div>
+            <textarea id="messageInput" placeholder="پیام خود را بنویسید..." rows="2"></textarea>
+            <button class="btn btn-primary send-btn" id="sendMessage">ارسال</button>
+          </div>
+        </div>
+      </div>
+      <div class="emoji-picker" id="emojiPicker"></div>
+    </section>
+
+    <!-- بخش Grafjy - زبان و ساخت ربات -->
+    <section id="grafjy" class="section">
+      <h2 class="section-title">Grafjy — زبان ساخت ربات</h2>
+      <p class="section-desc">زبان اختصاصی Poogo برای ساخت ربات پیامرسان</p>
+      <div class="grafjy-workspace">
+        <div class="editor-panel">
+          <div class="editor-toolbar">
+            <span>ویرایشگر Grafjy</span>
+            <div>
+              <button class="btn btn-small" id="runGrafjy">اجرا</button>
+              <button class="btn btn-small" id="clearGrafjy">پاک کردن</button>
+              <button class="btn btn-small" id="saveGrafjy">ذخیره</button>
+            </div>
+          </div>
+          <textarea id="grafjyCode" class="code-editor" spellcheck="false"># ربات خوش‌آمدگو با Grafjy
+on message "سلام":
+    reply "سلام! به ربات Poogo خوش آمدید."
+on message "زمان":
+    reply "الان " + time()
+on keyword "کمک":
+    reply "دستورات: سلام، زمان، کمک"
+</textarea>
+        </div>
+        <div class="output-panel">
+          <div class="output-toolbar">خروجی / پیش‌نمایش</div>
+          <pre id="grafjyOutput" class="output-console"></pre>
+          <div class="grafjy-docs-inline">
+            <h4>دستورات پایه Grafjy</h4>
+            <code>on message "متن":</code> واکنش به پیام دقیق<br>
+            <code>on keyword "کلمه":</code> واکنش به کلمه کلیدی<br>
+            <code>reply "متن"</code> پاسخ به کاربر<br>
+            <code>time()</code> زمان فعلی
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ویرایشگر عکس -->
+    <section id="image-editor" class="section dark">
+      <h2 class="section-title">ویرایشگر عکس حرفه‌ای</h2>
+      <p class="section-desc">فونت‌های زیاد، تمپلیت‌ها و ابزارهای کامل</p>
+      <div class="image-editor-app">
+        <div class="editor-sidebar">
+          <div class="sidebar-block">
+            <h4>آپلود عکس</h4>
+            <input type="file" id="uploadImage" accept="image/*">
+            <button class="btn btn-small" id="newCanvas">بوم خالی</button>
+          </div>
+          <div class="sidebar-block">
+            <h4>تمپلیت‌ها</h4>
+            <div class="templates-grid" id="templatesGrid"></div>
+          </div>
+          <div class="sidebar-block">
+            <h4>متن</h4>
+            <input type="text" id="textOverlay" placeholder="متن روی عکس">
+            <select id="fontSelect"></select>
+            <input type="color" id="textColor" value="#ffffff">
+            <input type="range" id="fontSize" min="12" max="120" value="48">
+            <span id="fontSizeLabel">48px</span>
+          </div>
+          <div class="sidebar-block">
+            <h4>فیلترها</h4>
+            <div class="filters-grid" id="filtersGrid"></div>
+          </div>
+        </div>
+        <div class="canvas-area">
+          <div class="canvas-toolbar">
+            <button class="btn btn-small" id="undoCanvas">↶ بازگردانی</button>
+            <button class="btn btn-small" id="downloadImage">دانلود</button>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="mainCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش آموزش Grafjy -->
+    <section id="learn-grafjy" class="section">
+      <h2 class="section-title">آموزش Grafjy</h2>
+      <p class="section-desc">از مقدماتی تا پیشرفته، جامعه‌ی یادگیری</p>
+      <div class="learn-layout">
+        <nav class="learn-nav">
+          <button class="learn-nav-btn active" data-lesson="intro">مقدمه</button>
+          <button class="learn-nav-btn" data-lesson="syntax">سینتکس پایه</button>
+          <button class="learn-nav-btn" data-lesson="events">رویدادها</button>
+          <button class="learn-nav-btn" data-lesson="variables">متغیرها</button>
+          <button class="learn-nav-btn" data-lesson="advanced">پیشرفته</button>
+        </nav>
+        <article class="learn-content" id="learnContent"></article>
+      </div>
+    </section>
+
+    <!-- بخش راهنمای زبان‌های برنامه‌نویسی -->
+    <section id="languages" class="section dark">
+      <h2 class="section-title">بهترین زبان‌های برنامه‌نویسی و دوره‌ها</h2>
+      <p class="section-desc">راهنمای کامل هر حوزه و دوره‌های یادگیری ساده</p>
+      <div class="languages-tabs">
+        <button class="lang-tab active" data-domain="all">همه حوزه‌ها</button>
+        <button class="lang-tab" data-domain="web">وب</button>
+        <button class="lang-tab" data-domain="mobile">موبایل</button>
+        <button class="lang-tab" data-domain="ai">هوش مصنوعی</button>
+        <button class="lang-tab" data-domain="game">بازی</button>
+        <button class="lang-tab" data-domain="backend">سرور</button>
+        <button class="lang-tab" data-domain="data">داده و تحلیل</button>
+      </div>
+      <div class="languages-grid" id="languagesGrid"></div>
+      <div class="courses-section">
+        <h3>دوره‌های کامل یادگیری</h3>
+        <div class="courses-grid" id="coursesGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-inner">
+      <span class="logo">Poogo</span>
+      <p>پرامت، پیامرسانی، Grafjy، ویرایش عکس و آموزش برنامه‌نویسی</p>
+      <p class="copyright">© 2025 Poogo. تمامی حقوق محفوظ است.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

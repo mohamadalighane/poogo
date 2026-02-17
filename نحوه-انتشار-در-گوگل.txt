@@ -1,0 +1,51 @@
+═══════════════════════════════════════════════════════════
+  نحوه انتشار سایت Poogo روی اینترنت و ایندکس در گوگل
+═══════════════════════════════════════════════════════════
+
+■ مرحله ۱: انتشار رایگان با GitHub Pages
+───────────────────────────────────────
+۱. یک اکانت رایگان در github.com بسازید (اگر ندارید).
+۲. روی "New repository" کلیک کنید.
+۳. نام ریپو را مثلاً poogo بگذارید و Create repository بزنید.
+۴. در پوشهٔ پروژه (همین پوشه) در PowerShell یا CMD این دستورات را بزنید:
+
+   git init
+   git add .
+   git commit -m "First commit - Poogo"
+   git branch -M main
+   git remote add origin https://github.com/YOUR-USERNAME/poogo.git
+   git push -u origin main
+
+   (به جای YOUR-USERNAME نام کاربری گیت‌هاب خودتان را بگذارید.)
+
+۵. داخل گیت‌هاب بروید به: Repository → Settings → Pages
+۶. زیر "Source" گزینه "Deploy from a branch" را انتخاب کنید.
+۷. Branch را "main" و پوشه را "/ (root)" بگذارید و Save کنید.
+۸. بعد از یکی دو دقیقه سایت شما اینجا بالا می‌آید:
+   https://YOUR-USERNAME.github.io/poogo/
+
+۹. داخل فایل‌های robots.txt و sitemap.xml به جای YOUR-USERNAME
+   آدرس واقعی خودتان را بگذارید (مثلاً alirezax اگر کاربریتان alirezax است).
+
+
+■ مرحله ۲: ایندکس شدن در گوگل
+───────────────────────────────────────
+۱. بروید به: https://search.google.com/search-console
+۲. با اکانت گوگل وارد شوید.
+۳. "Add property" یا «افزودن ملک» را بزنید.
+۴. آدرس سایت را وارد کنید، مثلاً:
+   https://YOUR-USERNAME.github.io/poogo/
+۵. برای تأیید مالکیت یکی از روش‌ها (مثلاً HTML file یا HTML tag) را انجام دهید.
+۶. بعد از تأیید، از منو "Sitemaps" را باز کنید و آدرس سایتمپ را اضافه کنید:
+   https://YOUR-USERNAME.github.io/poogo/sitemap.xml
+۷. گوگل بعد از چند روز صفحهٔ شما را در نتایج جستجو نشان می‌دهد.
+
+
+■ روش دیگر: Netlify (بدون گیت)
+───────────────────────────────────────
+۱. بروید به netlify.com و ثبت‌نام کنید.
+۲. پوشهٔ پروژه (همین پوشه) را بکشید و در باکس "Drag and drop" رها کنید.
+۳. Netlify یک لینک مثل https://random-name.netlify.app به شما می‌دهد.
+۴. همان لینک را در Google Search Console اضافه و تأیید کنید.
+
+═══════════════════════════════════════════════════════════
